@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Management System</title>
+  <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #d30707;
+            color: hsl(0, 74%, 48%);
+        }
+
+        header {
+            background: #10243e;
+            color: rgb(229, 255, 0);
+            padding: 24px 7%;
+        }
+
+        header h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #cbd5e1;
+        }
+
+        nav {
+            background: white;
+            padding: 15px 7%;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        nav a {
+            color: #10243e;
+            text-decoration: none;
+            margin-right: 25px;
+            font-weight: bold;
+        }
+
+        main {
+            width: 86%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card, .panel {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+        }
+
+        .stat-card p {
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h3 {
+            font-size: 30px;
+            color: #0f766e;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .panel h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 15px 0 7px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #99f6e4;
+            border-color: #0f766e;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            background: #0f766e;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .primary-btn:hover {
+            background: #115e59;
+        }
+
+        .secondary-btn {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .table-controls input {
+            max-width: 230px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 13px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .edit-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
+            margin-right: 5px;
+        }
+
+        #feedback {
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #64748b;
+            padding: 25px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 850px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                width: 92%;
+            }
+
+            header, nav {
+                padding-left: 4%;
+                padding-right: 4%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Sports Management System</h1>
+    <p>Manage players, teams and fixtures in one place.</p>
+</header>
+
+<nav>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#form-panel">Add Record</a>
+    <a href="#records">Sports Records</a>
+</nav>
+
+<main>
+    <section class="welcome" id="dashboard">
+        <h2>Dashboard</h2>
+        <p>Welcome! Manage your sports information below.</p>
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <p>Total Records</p>
+            <h3 id="totalRecords">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Players</p>
+            <h3 id="totalPlayers">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Fixtures</p>
+            <h3 id="totalFixtures">0</h3>
+        </div>
+    </section>
+
+    <div class="content-grid">
+
+        <section class="panel" id="form-panel">
+            <h2 id="formTitle">Add Sports Record</h2>
+
+            <form id="sportsForm">
+                <label for="record_type">Record Type</label>
+                <select id="record_type" required>
+                    <option value="Player">Player</option>
+                    <option value="Fixture">Fixture</option>
+                </select>
+
+                <label for="team_name">Team Name</label>
+                <input id="team_name" type="text"
+                       placeholder="Enter team name" required>
+
+                <div id="playerFields">
+                    <label for="player_name">Player Name</label>
+                    <input id="player_name" type="text"
+                           placeholder="Enter player name">
+
+                    <label for="position">Position</label>
+                    <input id="position" type="text"
+                           placeholder="e.g. Defender">
+
+                    <label for="jersey_number">Jersey Number</label>
+                    <input id="jersey_number" type="number"
+                           min="1" placeholder="e.g. 10">
+                </div>
+
+                <div id="fixtureFields" hidden>
+                    <label for="opponent">Opponent</label>
+                    <input id="opponent" type="text"
+                           placeholder="Enter opposing team">
+
+                    <label for="match_date">Match Date</label>
+                    <input id="match_date" type="date">
+                </div>
+
+                <button class="primary-btn" type="submit" id="saveBtn">
+                    Add Record
+                </button>
+
+                <button class="secondary-btn" type="button"
+                        id="cancelEditBtn" hidden
+                        style="width:100%; margin-top:10px;">
+                    Cancel Edit
+                </button>
+
+                <p id="feedback" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="panel" id="records">
+            <h2>Sports Records</h2>
+
+            <div class="table-controls">
+                <input id="searchInput" type="search"
+                       placeholder="Search records...">
+
+                <button class="secondary-btn" id="refreshBtn" type="button">
+                    Refresh Records
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Team / Player</th>
+                            <th>Details</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recordsBody">
+                        <tr>
+                            <td colspan="5" class="empty-message">
+                                Loading records...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <p>ICT251 Web Technologies | Sports Management System</p>
+</footer>
+
+<script>
+    const API_URL = "/api/sports";
+
+    const form = document.getElementById("sportsForm");
+    const typeSelect = document.getElementById("record_type");
+    const playerFields = document.getElementById("playerFields");
+    const fixtureFields = document.getElementById("fixtureFields");
+    const recordsBody = document.getElementById("recordsBody");
+    const feedback = document.getElementById("feedback");
+
+    let sportsRecords = [];
+    let editingId = null;
+
+    function showFeedback(message, isError = false) {
+        feedback.textContent = message;
+        feedback.style.color = isError ? "#b91c1c" : "#0f766e";
+    }
+
+    function updateFormFields() {
+        const isPlayer = typeSelect.value === "Player";
+
+        playerFields.hidden = !isPlayer;
+        fixtureFields.hidden = isPlayer;
+
+        document.getElementById("player_name").required = isPlayer;
+        document.getElementById("opponent").required = !isPlayer;
+        document.getElementById("match_date").required = !isPlayer;
+    }
+
+    typeSelect.addEventListener("change", updateFormFields);
+
+    function updateStatistics() {
+        document.getElementById("totalRecords").textContent =
+            sportsRecords.length;
+
+        document.getElementById("totalPlayers").textContent =
+            sportsRecords.filter(r => r.record_type === "Player").length;
+
+        document.getElementById("totalFixtures").textContent =
+            sportsRecords.filter(r => r.record_type === "Fixture").length;
+    }
+
+    function createCell(value) {
+        const cell = document.createElement("td");
+        cell.textContent = value ?? "";
+        return cell;
+    }
+
+    function renderRecords() {
+        const search = document.getElementById("searchInput")
+            .value.trim().toLowerCase();
+
+        const filtered = sportsRecords.filter(record =>
+            Object.values(record).some(value =>
+                String(value ?? "").toLowerCase().includes(search)
+            )
+        );
+
+        recordsBody.replaceChildren();
+
+        if (filtered.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+
+            cell.colSpan = 5;
+            cell.className = "empty-message";
+            cell.textContent = search
+                ? "No matching records found."
+                : "No records yet. Add your first record.";
+
+            row.appendChild(cell);
+            recordsBody.appendChild(row);
+            return;
+        }
+
+        filtered.forEach(record => {
+            const row = document.createElement("tr");
+
+            row.appendChild(createCell(record.id));
+            row.appendChild(createCell(record.record_type));
+            row.appendChild(createCell(
+                record.record_type === "Player"
+                    ? `${record.team_name} / ${record.player_name}`
+                    : record.team_name
+            ));
+
+            const details = record.record_type === "Player"
+                ? `Position: ${record.position || "-"}, Jersey: ${record.jersey_number || "-"}`
+                : `Opponent: ${record.opponent}, Date: ${record.match_date}`;
+
+            row.appendChild(createCell(details));
+
+            const actions = document.createElement("td");
+
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.className = "edit-btn";
+            editButton.type = "button";
+            editButton.addEventListener("click", () => editRecord(record.id));
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.className = "delete-btn";
+            deleteButton.type = "button";
+            deleteButton.addEventListener("click", () => deleteRecord(record.id));
+
+            actions.append(editButton, deleteButton);
+            row.appendChild(actions);
+            recordsBody.appendChild(row);
+        });
+    }
+
+    async function loadRecords() {
+        recordsBody.innerHTML =
+            '<tr><td colspan="5" class="empty-message">Loading records...</td></tr>';
+
+        try {
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error("Could not retrieve sports records.");
+            }
+
+            const result = await response.json();
+
+            sportsRecords = Array.isArray(result)
+                ? result
+                : result.data || [];
+
+            updateStatistics();
+            renderRecords();
+        } catch (error) {
+            recordsBody.replaceChildren();
+
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+
+            cell.colSpan = 5;
+            cell.className = "empty-message";
+            cell.textContent = "Unable to connect to the API. Start your server and refresh.";
+
+            row.appendChild(cell);
+            recordsBody.appendChild(row);
+        }
+    }
+
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const recordType = typeSelect.value;
+
+        const record = {
+            record_type: recordType,
+            team_name: document.getElementById("team_name").value.trim()
+        };
+
+        if (recordType === "Player") {
+            record.player_name =
+                document.getElementById("player_name").value.trim();
+
+            record.position =
+                document.getElementById("position").value.trim();
+
+            record.jersey_number =
+                document.getElementById("jersey_number").value
+                    ? Number(document.getElementById("jersey_number").value)
+                    : "";
+        } else {
+            record.opponent =
+                document.getElementById("opponent").value.trim();
+
+            record.match_date =
+                document.getElementById("match_date").value;
+        }
+
+        try {
+            const response = await fetch(
+                editingId === null ? API_URL : `${API_URL}/${editingId}`,
+                {
+                    method: editingId === null ? "POST" : "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(record)
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Unable to save record.");
+            }
+
+            showFeedback(result.message || "Record saved successfully.");
+
+            form.reset();
+            editingId = null;
+            document.getElementById("formTitle").textContent = "Add Sports Record";
+            document.getElementById("saveBtn").textContent = "Add Record";
+            document.getElementById("cancelEditBtn").hidden = true;
+
+            updateFormFields();
+            await loadRecords();
+        } catch (error) {
+            showFeedback(error.message, true);
+        }
+    });
+
+    function editRecord(id) {
+        const record = sportsRecords.find(item => item.id === id);
+
+        if (!record) return;
+
+        editingId = id;
+        typeSelect.value = record.record_type;
+        updateFormFields();
+
+        document.getElementById("team_name").value = record.team_name || "";
+        document.getElementById("player_name").value = record.player_name || "";
+        document.getElementById("position").value = record.position || "";
+        document.getElementById("jersey_number").value =
+            record.jersey_number ?? "";
+        document.getElementById("opponent").value = record.opponent || "";
+        document.getElementById("match_date").value = record.match_date || "";
+
+        document.getElementById("formTitle").textContent =
+            `Edit Record #${id}`;
+
+        document.getElementById("saveBtn").textContent = "Save Changes";
+        document.getElementById("cancelEditBtn").hidden = false;
+
+        showFeedback("Edit the fields and save your changes.");
+        document.getElementById("form-panel").scrollIntoView({
+            behavior: "smooth"
+        });
+    }
+
+    async function deleteRecord(id) {
+        if (!confirm(`Are you sure you want to delete record #${id}?`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "DELETE"
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Unable to delete record.");
+            }
+
+            showFeedback("Record deleted successfully.");
+            await loadRecords();
+        } catch (error) {
+            showFeedback(error.message, true);
+        }
+    }
+
+    document.getElementById("cancelEditBtn").addEventListener("click", () => {
+        editingId = null;
+        form.reset();
+
+        document.getElementById("formTitle").textContent = "Add Sports Record";
+        document.getElementById("saveBtn").textContent = "Add Record";
+        document.getElementById("cancelEditBtn").hidden = true;
+
+        updateFormFields();
+        showFeedback("");
+    });
+
+    document.getElementById("searchInput").addEventListener("input", renderRecords);
+    document.getElementById("refreshBtn").addEventListener("click", loadRecords);
+
+    updateFormFields();
+    loadRecords();
+</script>
+
+</body>
+</html>

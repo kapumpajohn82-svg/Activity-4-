@@ -1,0 +1,28 @@
+{
+  "sports": [
+    {
+      "id": "1c64f77e-8fa2-4eff-bfd7-b8b042d0d812",
+      "record_type": "Player",
+      "team_name": "chelsea",
+      "player_name": "JOHN",
+      "position": "DEFENDER",
+      "jersey_number": 5,
+      "opponent": null,
+      "match_date": null,
+      "createdAt": "2026-10-18T10:15:55.623Z"
+    },
+    {
+      "id": "5f9be70e-2af1-4ac3-9d93-db63ded98b73",
+      "record_type": "Fixture",
+      "team_name": "Chelsea",
+      "player_name": null,
+      "position": null,
+      "jersey_number": null,
+      "opponent": "Leeds",
+      "match_date": "2026-10-12",
+      "createdAt": "2026-10-18T10:18:50.054Z"
+    }
+  ],
+  "players": [],
+  "fixtures": []
+}

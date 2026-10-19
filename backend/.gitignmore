@@ -1,0 +1,5 @@
+node_modules/
+.env
+sports.db
+sports.db-shm
+sports.db-wal

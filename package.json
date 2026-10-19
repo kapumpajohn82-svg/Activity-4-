@@ -1,0 +1,12 @@
+﻿{
+  "name": "ict251-activity4",
+  "version": "1.0.0",
+  "description": "ICT251 Sports Management API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
